@@ -1,5 +1,4 @@
 import cors from "cors";
-import path from "path";
 import http from "http";
 import logger from "morgan";
 import express from "express";
@@ -22,7 +21,6 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, "public")));
 
 // Routes
 app.use("/", indexRouter);
