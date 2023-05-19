@@ -15,7 +15,7 @@ export function normalizePort(val: string) {
 }
 
 // Get port from environment and store in Express.
-export const port = normalizePort(process.env.PORT || "3000");
+export const port = normalizePort(process.env.PORT || "5000");
 
 // Event listener for HTTP server "error" event.
 export interface CustomError extends Error {

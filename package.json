@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "npm run build && node ./dist/app.js",
+    "dev": "nodemon ./server/app.ts -e ts,json,pug,css",
+    "build": "rm -rf /dist && tsc -p . && node minify.js",
+    "server": "SET DEBUG=express-locallibrary-tutorial:* & npm run dev"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
