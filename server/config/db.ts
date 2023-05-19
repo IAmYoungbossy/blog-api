@@ -1,6 +1,6 @@
 import http from "http";
 import mongoose from "mongoose";
-import { MONGO_URL } from "./urlString";
+import { MONGO_URL } from "./dbUrl";
 import { CustomError } from "../helpers/helpers";
 
 // This is set to false to enable use of virtual properties
