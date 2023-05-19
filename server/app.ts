@@ -1,10 +1,11 @@
-import http from "http";
 import cors from "cors";
 import path from "path";
+import http from "http";
 import logger from "morgan";
 import express from "express";
 import cookieParser from "cookie-parser";
 
+import conectToDb from "./config/db";
 import errorHandler, {
   catchErrorAndForward,
 } from "./controllers/errorControllers";
@@ -39,7 +40,10 @@ app.set("port", port);
 // Create HTTP server.
 const server = http.createServer(app);
 
-// Listen on provided port, on all network interfaces.
-server.listen(port);
-server.on("error", onError);
-server.on("listening", onListening.bind(null, server));
+// Connects to db and listens for requests
+conectToDb({
+  port,
+  server,
+  onError,
+  onListening: onListening.bind(null, server),
+}).catch((err) => console.log(err));
