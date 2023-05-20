@@ -1,9 +1,9 @@
 import express from "express";
+import { regUser } from "../controllers/userController";
+
 const router = express.Router();
 
-/* GET users listing. */
-router.get("/", function (req, res, next) {
-  res.json({ message: "Welcome" });
-});
+// POST user Details to db.
+router.post("/", regUser);
 
 export default router;

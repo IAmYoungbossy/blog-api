@@ -8,8 +8,8 @@ import conectToDb from "./config/db";
 import errorHandler, {
   catchErrorAndForward,
 } from "./controllers/errorControllers";
+import userRouter from "./routes/users";
 import indexRouter from "./routes/index";
-import usersRouter from "./routes/users";
 import { onError, onListening, port } from "./helpers/helpers";
 
 // Express app
@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // Routes
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/user", userRouter);
 
 // catch 404 and forward to error handler
 app.use(catchErrorAndForward);
