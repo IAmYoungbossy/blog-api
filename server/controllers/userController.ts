@@ -67,15 +67,51 @@ export const authUser = asyncHandler(
 );
 
 // @access Private
-// desc Logout user
-// POST /api/v1/user/logout
-export const logoutUser = asyncHandler(
-  async (req: Request, res: Response) => {
-    res.cookie("jwt", "", {
-      httpOnly: true,
-      expires: new Date(0),
-    });
-
-    res.status(200).json({ message: "Logged out" });
+// @desc Get user profile
+// route GET /api/v1/user/profile
+export const getUserProfile = asyncHandler(
+  async (req: any, res) => {
+    const { user } = req;
+    res.status(200).json({ user });
   }
 );
+
+// @access Private
+// @desc Update user profile
+// route PUT /api/v1/user/profile
+export const updateUserProfile = asyncHandler(
+  async (req: any, res) => {
+    const user = await User.findById(req.user._id);
+    const { email, password, lastName, firstName, avatar } =
+      req.body;
+    if (user) {
+      user.email = email || user.email;
+      user.avatar = avatar || user.avatar;
+      user.lastName = lastName || user.lastName;
+      user.firstName = firstName || user.firstName;
+      if (password) user.password = password;
+
+      const updatedUser = await user.save();
+
+      res.status(200).json({
+        _id: updatedUser._id,
+        email: updatedUser.email,
+        avatar: updatedUser.avatar,
+        lastName: updatedUser.lastName,
+        firstName: updatedUser.firstName,
+      });
+    }
+  }
+);
+
+// @access Private
+// desc Logout user
+// POST /api/v1/user/logout
+export const logoutUser = asyncHandler(async (req, res) => {
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+
+  res.status(200).json({ message: "Logged out" });
+});
