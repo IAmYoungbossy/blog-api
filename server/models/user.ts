@@ -43,6 +43,8 @@ UserSchema.statics.signUp = async function (props: IUser) {
 
   // All required fields
   const reqData = { email, password, lastName, firstName };
+
+  // Find user
   const userExist = await this.findOne({ email });
 
   // Checks if user exist before creating new user
