@@ -7,7 +7,7 @@ import cookieParser from "cookie-parser";
 import conectToDb from "./config/db";
 import errorHandler, {
   catchErrorAndForward,
-} from "./controllers/errorControllers";
+} from "./middleware/errorMiddleware";
 import userRouter from "./routes/users";
 import indexRouter from "./routes/index";
 import { onError, onListening, port } from "./helpers/helpers";

@@ -40,7 +40,7 @@ UserSchema.methods.matchPassword = async function (
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-interface IUserModel extends IUser {
+export interface IUserModel extends IUser {
   signUp: (props: IUser) => Promise<any>;
   matchPassword: (enteredPassword: string) => Promise<boolean>;
 }
