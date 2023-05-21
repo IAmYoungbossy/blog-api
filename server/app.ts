@@ -23,8 +23,8 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 
 // Routes
-app.use("/", indexRouter);
-app.use("/user", userRouter);
+app.use("/api/v1", indexRouter);
+app.use("/api/v1/user", userRouter);
 
 // catch 404 and forward to error handler
 app.use(catchErrorAndForward);
