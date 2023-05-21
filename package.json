@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "client": "cd client && npm run dev",
     "start": "npm run build && node ./dist/app.js",
     "dev": "nodemon ./server/app.ts -e ts,json,pug,css",
     "build": "rm -rf /dist && tsc -p . && node minify.js",
