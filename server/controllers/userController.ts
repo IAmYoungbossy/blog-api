@@ -71,7 +71,7 @@ export const authUser = asyncHandler(
 
 // @access Private
 // @desc Get user profile
-// route GET /api/v1/user/profile
+// @route GET /api/v1/user/profile
 export const getUserProfile = [
   protectRoute,
   asyncHandler(async (req: any, res) => {
@@ -83,7 +83,7 @@ export const getUserProfile = [
 
 // @access Private
 // @desc Update user profile
-// route PUT /api/v1/user/profile
+// @route PUT /api/v1/user/profile
 export const updateUserProfile = [
   protectRoute,
   asyncHandler(async (req: any, res) => {
@@ -111,8 +111,8 @@ export const updateUserProfile = [
 ];
 
 // @access Private
-// desc Logout user
-// POST /api/v1/user/logout
+// @desc Logout user
+// @route POST /api/v1/user/logout
 export const logoutUser = asyncHandler(async (req, res) => {
   res.cookie("jwt", "", {
     httpOnly: true,
