@@ -1,9 +1,27 @@
 import express from "express";
-import { regUser } from "../controllers/userController";
+import {
+  regUser,
+  authUser,
+  logoutUser,
+  getUserProfile,
+  updateUserProfile,
+} from "../controllers/userController";
 
 const router = express.Router();
 
-// POST user Details to db.
-router.post("/", regUser);
+// POST authenticate user.
+router.post("/auth", authUser);
+
+// POST register new user.
+router.post("/register", regUser);
+
+// POST logs out user from account.
+router.post("/logout", logoutUser);
+
+// GET displays logged in user data.
+router.get("/profile", getUserProfile);
+
+// PUT updates user data in database.
+router.put("/profile", updateUserProfile);
 
 export default router;

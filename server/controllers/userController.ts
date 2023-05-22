@@ -4,8 +4,8 @@ import asyncHandler from "express-async-handler";
 import generateToken from "../utils/generateToken";
 
 // @access Public
-// @route POST /api/v1/user
 // @desc Register a new user
+// @route POST /api/v1/user/register
 export const regUser = asyncHandler(
   async (req: Request, res: Response) => {
     const { email, password, lastName, firstName, avatar } =
