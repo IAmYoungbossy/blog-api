@@ -4,22 +4,36 @@ This project aims to develop a robust and feature-rich blog website using Node.j
 
 ## Technologies Used
 
-- Node.js: A powerful and efficient JavaScript runtime for building server-side applications.
-- Express.js: A minimal and flexible web application framework for Node.js that simplifies API development.
-- TypeScript: A strongly-typed superset of JavaScript that enables static typing and enhances code quality.
-- Next.js: A popular React framework for building server-rendered and statically generated applications.
-- Tailwind CSS: A utility-first CSS framework that enables rapid and customizable styling.
-- Redux/Redux Toolkit: A predictable state container for JavaScript applications, ensuring efficient state management.
-- Git: A distributed version control system for tracking changes and collaborating with teammates.
+- **Node.js:** A powerful and efficient JavaScript runtime for building server-side applications.
+
+- **Express.js:** A minimal and flexible web application framework for Node.js that simplifies API development.
+
+- **TypeScript:** A strongly-typed superset of JavaScript that enables static typing and enhances code quality.
+
+- **Next.js:** A popular React framework for building server-rendered and statically generated applications.
+
+- **MongoDb:** A popular NoSQL database that provides scalability, flexibility, and high-performance data storage.
+
+- **Tailwind CSS:** A utility-first CSS framework that enables rapid and customizable styling.
+
+- **Redux/Redux Toolkit:** A predictable state container for JavaScript applications, ensuring efficient state management.
+
+- **Git:** A distributed version control system for tracking changes and collaborating with teammates.
 
 ## Features
 
 1. **RESTful API:** The backend will expose a well-designed and documented API adhering to RESTful principles, enabling seamless integration with the front-end applications.
+
 2. **Two Front-end Applications:** The blog website will consist of two distinct front-end applications. One will cater to users who wish to read and comment on blog posts, while the other will provide an interface for you to write, edit, and publish posts.
+
 3. **Next.js:** The primary front-end will leverage Next.js to facilitate server-side rendering and static site generation, resulting in improved performance and SEO-friendliness.
+
 4. **Tailwind CSS:** The front-end will be styled using Tailwind CSS, allowing for rapid development and easy customization of the user interface.
+
 5. **Redux/Redux Toolkit:** State management will be implemented using Redux and Redux Toolkit, ensuring a centralized and efficient approach to managing application state.
+
 6. **TypeScript:** Both the backend and front-end codebases will be written in TypeScript, enhancing code quality, enabling static typing, and reducing potential bugs.
+
 7. **Git Version Control:** The project will be version controlled using Git, allowing for collaboration, change tracking, and easy rollbacks if necessary.
 
 ## Contribution
