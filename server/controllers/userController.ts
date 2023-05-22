@@ -2,6 +2,7 @@ import User from "../models/userModel";
 import { Response, Request } from "express";
 import asyncHandler from "express-async-handler";
 import generateToken from "../utils/generateToken";
+import protectRoute from "../middleware/authMiddleware";
 
 // @access Public
 // @desc Register a new user
@@ -45,20 +46,22 @@ export const regUser = asyncHandler(
 // @desc Authenticate user
 // @route POST /api/v1/user/auth
 export const authUser = asyncHandler(
-  async (req: Request, res: Response) => {
+  async (req: any, res: Response) => {
     const { email, password } = req.body;
 
-    const user = await User.findOne(email);
+    const user = await User.findOne({ email });
 
     if (user && (await user.matchPassword(password))) {
       generateToken(res, user._id);
-      res.status(201).json({
+      req.user = {
         _id: user._id,
         email: user.email,
         avatar: user.avatar,
         lastName: user.lastName,
         firstName: user.firstName,
-      });
+      };
+      res.redirect("/api/v1/user/profile");
+      // res.status(201).json();
     } else {
       res.status(400);
       throw new Error("Invalid user data");
@@ -69,18 +72,21 @@ export const authUser = asyncHandler(
 // @access Private
 // @desc Get user profile
 // route GET /api/v1/user/profile
-export const getUserProfile = asyncHandler(
-  async (req: any, res) => {
+export const getUserProfile = [
+  protectRoute,
+  asyncHandler(async (req: any, res) => {
+    // generateToken(res, req.user._id);
     const { user } = req;
     res.status(200).json({ user });
-  }
-);
+  }),
+];
 
 // @access Private
 // @desc Update user profile
 // route PUT /api/v1/user/profile
-export const updateUserProfile = asyncHandler(
-  async (req: any, res) => {
+export const updateUserProfile = [
+  protectRoute,
+  asyncHandler(async (req: any, res) => {
     const user = await User.findById(req.user._id);
     const { email, password, lastName, firstName, avatar } =
       req.body;
@@ -101,8 +107,8 @@ export const updateUserProfile = asyncHandler(
         firstName: updatedUser.firstName,
       });
     }
-  }
-);
+  }),
+];
 
 // @access Private
 // desc Logout user
