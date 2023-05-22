@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import { Schema, model } from "mongoose";
 
-const fieldTypes = {
+export const fieldTypes = {
   type: String,
   required: true,
 };
