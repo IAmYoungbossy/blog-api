@@ -8,9 +8,11 @@ import conectToDb from "./config/db";
 import errorHandler, {
   catchErrorAndForward,
 } from "./middleware/errorMiddleware";
+import { port } from "./utils/onError";
 import userRouter from "./routes/users";
 import indexRouter from "./routes/index";
-import { onError, onListening, port } from "./helpers/helpers";
+import { onError } from "./utils/onError";
+import { onListening } from "./utils/onListening";
 
 // Express app
 const app = express();

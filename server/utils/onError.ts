@@ -1,18 +1,4 @@
-import http from "http";
-import Debug from "debug";
-const debug = Debug("src:server");
-
-// Normalize a port into a number, string, or false.
-export function normalizePort(val: string) {
-  const port = parseInt(val, 10);
-
-  // named pipe
-  if (isNaN(port)) return val;
-  // port number
-  if (port >= 0) return port;
-
-  return false;
-}
+import { normalizePort } from "./normalizePort";
 
 // Get port from environment and store in Express.
 export const port = normalizePort(process.env.PORT || "5000");
@@ -40,19 +26,4 @@ export function onError(error: CustomError) {
     default:
       throw error;
   }
-}
-
-// Event listener for HTTP server "listening" event.
-export function onListening(
-  server: http.Server<
-    typeof http.IncomingMessage,
-    typeof http.ServerResponse
-  >
-) {
-  const addr = server.address();
-  const bind =
-    typeof addr === "string"
-      ? "pipe " + addr
-      : "port " + addr?.port;
-  debug("Listening on " + bind);
 }

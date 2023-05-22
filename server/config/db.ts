@@ -1,7 +1,7 @@
 import http from "http";
 import mongoose from "mongoose";
 import { MONGO_URL } from "./dbUrl";
-import { CustomError } from "../helpers/helpers";
+import { CustomError } from "../utils/onError";
 
 // This is set to false to enable use of virtual properties
 mongoose.set("strictQuery", false);
