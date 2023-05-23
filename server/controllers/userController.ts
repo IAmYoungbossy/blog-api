@@ -44,24 +44,17 @@ export const regUser = asyncHandler(
 
 // @access Public
 // @desc Authenticate user
-// @route POST /api/v1/user/auth
-export const authUser = asyncHandler(
+// @route POST /api/v1/user/login
+export const loginUser = asyncHandler(
   async (req: any, res: Response) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
 
     if (user && (await user.matchPassword(password))) {
+      res.status(201).json();
       generateToken(res, user._id);
-      req.user = {
-        _id: user._id,
-        email: user.email,
-        avatar: user.avatar,
-        lastName: user.lastName,
-        firstName: user.firstName,
-      };
       res.redirect("/api/v1/user/profile");
-      // res.status(201).json();
     } else {
       res.status(400);
       throw new Error("Invalid user data");
@@ -75,7 +68,6 @@ export const authUser = asyncHandler(
 export const getUserProfile = [
   protectRoute,
   asyncHandler(async (req: any, res) => {
-    // generateToken(res, req.user._id);
     const { user } = req;
     res.status(200).json({ user });
   }),

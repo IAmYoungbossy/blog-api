@@ -1,7 +1,7 @@
 import express from "express";
 import {
   regUser,
-  authUser,
+  loginUser,
   logoutUser,
   getUserProfile,
   updateUserProfile,
@@ -10,7 +10,7 @@ import {
 const router = express.Router();
 
 // POST authenticate user.
-router.post("/auth", authUser);
+router.post("/login", loginUser);
 
 // POST register new user.
 router.post("/register", regUser);
