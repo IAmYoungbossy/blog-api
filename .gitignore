@@ -1,4 +1,4 @@
 dist
 .env
-clients
+client
 node_modules
