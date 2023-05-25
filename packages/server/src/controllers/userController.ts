@@ -2,7 +2,6 @@ import formValidation, {
   updateFormValidation,
 } from "../middleware/formValidation";
 import User from "../models/userModel";
-import { Response, Request } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import asyncHandler from "express-async-handler";
 import generateToken from "../utils/generateToken";
@@ -14,7 +13,7 @@ import protectRoute from "../middleware/authMiddleware";
 // @route POST /api/v1/user/register
 export const regUser = [
   ...formValidation,
-  asyncHandler(async (req: Request, res: Response) => {
+  asyncHandler(async (req, res) => {
     const { email, password, lastName, firstName, avatar } =
       req.body;
 
@@ -58,22 +57,20 @@ export const regUser = [
 // @access Public
 // @desc Authenticate user
 // @route POST /api/v1/user/login
-export const loginUser = asyncHandler(
-  async (req, res: Response) => {
-    const { email, password } = req.body;
+export const loginUser = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
+  const user = await User.findOne({ email });
 
-    if (user && (await user.matchPassword(password))) {
-      generateToken(res, user._id);
-      res.redirect("/api/v1/user/profile");
-    } else {
-      res.status(400);
-      req.body.invalidUser = true;
-      throw new Error("Invalid Password or Email");
-    }
+  if (user && (await user.matchPassword(password))) {
+    generateToken(res, user._id);
+    res.redirect("/api/v1/user/profile");
+  } else {
+    res.status(400);
+    req.body.invalidUser = true;
+    throw new Error("Invalid Password or Email");
   }
-);
+});
 
 // @access Private
 // @desc Get user profile
