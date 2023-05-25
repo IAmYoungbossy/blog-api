@@ -13,11 +13,6 @@
   },
   "name": "blog-api",
   "workspaces": [
-    ".",
-    "server",
-    "client"
-  ],
-  "dependencies": {
-    "hoist": "^0.0.6"
-  }
+    "packages"
+  ]
 }
