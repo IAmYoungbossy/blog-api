@@ -25,6 +25,11 @@ const blogPostSchema = new Schema(
         "Entertainment",
       ],
     },
+    postAuthor: {
+      ref: "User",
+      required: true,
+      type: Schema.Types.ObjectId,
+    },
     status: {
       type: String,
       required: true,

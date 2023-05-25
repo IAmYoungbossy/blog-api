@@ -18,6 +18,11 @@ interface IUser {
 const UserSchema = new Schema(
   {
     avatar: String,
+    role: {
+      type: String,
+      default: "user",
+      enum: ["admin", "user"],
+    },
     password: fieldTypes,
     lastName: fieldTypes,
     firstName: fieldTypes,
