@@ -3,44 +3,15 @@ import { Response, Request } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import asyncHandler from "express-async-handler";
 import generateToken from "../utils/generateToken";
+import { validationResult } from "express-validator";
 import protectRoute from "../middleware/authMiddleware";
-import { body, validationResult } from "express-validator";
+import validateInputFields from "../utils/validateInputFields";
 
 // @access Public
 // @desc Register a new user
 // @route POST /api/v1/user/register
 export const regUser = [
-  body("avatar")
-    .optional({ checkFalsy: true })
-    .trim()
-    .isLength({ min: 1 })
-    .withMessage("Include a valid image path")
-    .escape(),
-
-  body("password")
-    .trim()
-    .isStrongPassword()
-    .withMessage("Please select a strong password")
-    .escape(),
-
-  body("email")
-    .trim()
-    .isEmail()
-    .withMessage("Please Use a valid email address")
-    .escape(),
-
-  body("firstName")
-    .trim()
-    .notEmpty()
-    .withMessage("First name field must not be empty")
-    .escape(),
-
-  body("lastName")
-    .trim()
-    .notEmpty()
-    .withMessage("Last name field must not be empty")
-    .escape(),
-
+  ...validateInputFields,
   asyncHandler(async (req: Request, res: Response) => {
     const { email, password, lastName, firstName, avatar } =
       req.body;
