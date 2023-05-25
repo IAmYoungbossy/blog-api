@@ -133,3 +133,30 @@ export const updatePostStatus = [
     }
   }),
 ];
+
+// @access Admin only
+// @desc Create a new blog post
+// @route DELETE /api/v1/admin/blog/delete
+export const deletePostStatus = [
+  protectRoute,
+  asyncHandler(async (req, res) => {
+    // Post Id
+    const { id } = req.params;
+
+    // Checks if it's Admin
+    const isAdmin = req.body.user.role === "admin";
+    if (!isAdmin) {
+      res.status(401);
+      throw new Error("Not authorized user");
+    } else {
+      try {
+        await BlogPostModel.deleteOne({ _id: id });
+        const message = "User profile successfully deleted";
+        res.status(201).json({ message });
+      } catch (err) {
+        res.status(401);
+        throw new Error("Something unexpected happend");
+      }
+    }
+  }),
+];
