@@ -97,3 +97,39 @@ export const updateBlogPost = [
     }
   }),
 ];
+
+// @access Admin only
+// @desc Create a new blog post
+// @route PUT /api/v1/admin/blog/status
+export const updatePostStatus = [
+  protectRoute,
+  asyncHandler(async (req, res) => {
+    const { status } = req.body;
+
+    // Checks if it's Admin
+    const isAdmin = req.body.user.role === "admin";
+    if (!isAdmin) {
+      res.status(401);
+      throw new Error("Not authorized user");
+    } else {
+      const { id } = req.params;
+      const blogPost = await BlogPostModel.findById(id);
+
+      if (!blogPost)
+        res.status(401).json({ message: "Post doesn't exist" });
+      else {
+        try {
+          blogPost.status =
+            (status as statusType) || blogPost.status;
+
+          const postData = await blogPost.save();
+
+          res.status(201).json(postData);
+        } catch (err) {
+          res.status(401);
+          throw new Error("Something unexpected happend");
+        }
+      }
+    }
+  }),
+];
