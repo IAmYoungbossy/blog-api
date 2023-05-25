@@ -4,7 +4,9 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import asyncHandler from "express-async-handler";
 import generateToken from "../utils/generateToken";
 import { validationResult } from "express-validator";
-import formValidation from "../utils/formValidation";
+import formValidation, {
+  updateFormValidation,
+} from "../utils/formValidation";
 import protectRoute from "../middleware/authMiddleware";
 
 // @access Public
@@ -68,7 +70,7 @@ export const loginUser = asyncHandler(
     } else {
       res.status(400);
       req.body.invalidUser = true;
-      throw new Error("Invalid user data");
+      throw new Error("Invalid Password or Email");
     }
   }
 );
@@ -88,28 +90,41 @@ export const getUserProfile = [
 // @desc Update user profile
 // @route PUT /api/v1/user/profile
 export const updateUserProfile = [
+  ...updateFormValidation,
   protectRoute,
   asyncHandler(async (req, res) => {
     const user = await User.findById(req.body.user._id);
     const { email, password, lastName, firstName, avatar } =
       req.body;
-    if (user) {
-      user.email = email || user.email;
-      user.avatar = avatar || user.avatar;
-      user.lastName = lastName || user.lastName;
-      user.firstName = firstName || user.firstName;
-      if (password) user.password = password;
 
-      const updatedUser = await user.save();
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+    const message = errors.array().map((err) => err.msg);
 
-      res.status(200).json({
-        _id: updatedUser._id,
-        email: updatedUser.email,
-        avatar: updatedUser.avatar,
-        lastName: updatedUser.lastName,
-        firstName: updatedUser.firstName,
-      });
-    }
+    if (errors.isEmpty()) {
+      try {
+        if (user) {
+          user.email = email || user.email;
+          user.avatar = avatar || user.avatar;
+          user.lastName = lastName || user.lastName;
+          user.firstName = firstName || user.firstName;
+          if (password) user.password = password;
+
+          const updatedUser = await user.save();
+
+          res.status(200).json({
+            _id: updatedUser._id,
+            email: updatedUser.email,
+            avatar: updatedUser.avatar,
+            lastName: updatedUser.lastName,
+            firstName: updatedUser.firstName,
+          });
+        }
+      } catch (err) {
+        res.status(500);
+        throw new Error("Oops! something unexpected happened");
+      }
+    } else res.status(401).json({ message });
   }),
 ];
 

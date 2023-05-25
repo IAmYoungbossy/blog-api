@@ -45,6 +45,6 @@ export interface IUserModel extends IUser {
   matchPassword: (enteredPassword: string) => Promise<boolean>;
 }
 
-const User = model<IUserModel>("regUsers", UserSchema);
+const User = model<IUserModel>("regUser", UserSchema);
 
 export default User;
