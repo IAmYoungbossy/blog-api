@@ -1,12 +1,12 @@
+import formValidation, {
+  updateFormValidation,
+} from "../middleware/formValidation";
 import User from "../models/userModel";
 import { Response, Request } from "express";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import asyncHandler from "express-async-handler";
 import generateToken from "../utils/generateToken";
 import { validationResult } from "express-validator";
-import formValidation, {
-  updateFormValidation,
-} from "../utils/formValidation";
 import protectRoute from "../middleware/authMiddleware";
 
 // @access Public

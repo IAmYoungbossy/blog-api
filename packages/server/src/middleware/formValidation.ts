@@ -1,5 +1,6 @@
 import { body } from "express-validator";
 
+// Form validation for user regisitration
 const formValidation = [
   body("avatar")
     .optional({ checkFalsy: true })
@@ -33,6 +34,7 @@ const formValidation = [
     .escape(),
 ];
 
+// Form validation for user profile update
 export const updateFormValidation = [
   body("avatar")
     .optional({ checkFalsy: true })
