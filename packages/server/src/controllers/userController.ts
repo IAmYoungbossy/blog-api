@@ -1,5 +1,6 @@
 import User from "../models/userModel";
 import { Response, Request } from "express";
+import jwt, { JwtPayload } from "jsonwebtoken";
 import asyncHandler from "express-async-handler";
 import generateToken from "../utils/generateToken";
 import protectRoute from "../middleware/authMiddleware";
@@ -46,17 +47,17 @@ export const regUser = asyncHandler(
 // @desc Authenticate user
 // @route POST /api/v1/user/login
 export const loginUser = asyncHandler(
-  async (req: any, res: Response) => {
+  async (req, res: Response) => {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email });
 
     if (user && (await user.matchPassword(password))) {
-      res.status(201).json();
       generateToken(res, user._id);
       res.redirect("/api/v1/user/profile");
     } else {
       res.status(400);
+      req.body.invalidUser = true;
       throw new Error("Invalid user data");
     }
   }
@@ -67,8 +68,8 @@ export const loginUser = asyncHandler(
 // @route GET /api/v1/user/profile
 export const getUserProfile = [
   protectRoute,
-  asyncHandler(async (req: any, res) => {
-    const { user } = req;
+  asyncHandler(async (req, res) => {
+    const { user } = req.body;
     res.status(200).json({ user });
   }),
 ];
@@ -78,8 +79,8 @@ export const getUserProfile = [
 // @route PUT /api/v1/user/profile
 export const updateUserProfile = [
   protectRoute,
-  asyncHandler(async (req: any, res) => {
-    const user = await User.findById(req.user._id);
+  asyncHandler(async (req, res) => {
+    const user = await User.findById(req.body.user._id);
     const { email, password, lastName, firstName, avatar } =
       req.body;
     if (user) {
@@ -113,3 +114,27 @@ export const logoutUser = asyncHandler(async (req, res) => {
 
   res.status(200).json({ message: "Logged out" });
 });
+
+// @access Private
+// @desc Delete user
+// @route DELETE /api/v1/user/profile
+export const deleteUserProfile = asyncHandler(
+  async (req, res) => {
+    const token = req.cookies.jwt;
+    if (token) {
+      try {
+        const secret = process.env.JWT_SECRET || "secret";
+        const decoded = jwt.verify(token, secret) as JwtPayload;
+        const message = "User profile successfully deleted";
+        await User.deleteOne({ _id: decoded.userId });
+        res.status(200).json({ message });
+      } catch (error) {
+        res.status(500);
+        throw new Error("Oops! something unexpected happened");
+      }
+    } else {
+      res.status(401);
+      throw new Error("Not authorized, no token");
+    }
+  }
+);

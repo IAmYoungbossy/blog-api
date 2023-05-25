@@ -2,11 +2,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "client": "cd client && npm run dev",
-    "start": "cd server && npm run build && node ./dist/app.js",
-    "dev": "cd server && nodemon ./src/app.ts -e ts,json,pug,css",
-    "build": "cd server && rm -rf /dist && tsc -p . && node minify.js",
-    "server": "cd server && SET DEBUG=express-locallibrary-tutorial:* & npm run dev"
+    "client": "cd packages/client && npm run dev",
+    "start": "cd packages/server && npm run build && node ./dist/app.js",
+    "dev": "cd packages/server && nodemon ./src/app.ts -e ts,json,pug,css",
+    "build": "cd packages/server && rm -rf /dist && tsc -p . && node minify.js",
+    "server": "cd packages/server && SET DEBUG=express-locallibrary-tutorial:* & npm run dev"
   },
   "devDependencies": {
     "lerna": "^6.6.2"

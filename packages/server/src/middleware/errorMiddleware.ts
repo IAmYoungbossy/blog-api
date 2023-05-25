@@ -19,7 +19,7 @@ const errorHandler = ((err, req, res, next) => {
     req.app.get("env") === "development" ? err : {};
 
   // render the error page
-  res.status(err.status || 500);
+  res.status(req.body.invalidUser ? 400 : err.status || 500);
   res.json({ err: err.message });
 }) as ErrorRequestHandler;
 
