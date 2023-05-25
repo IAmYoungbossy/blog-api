@@ -1,6 +1,6 @@
 import { body } from "express-validator";
 
-const validateInputFields = [
+const formValidation = [
   body("avatar")
     .optional({ checkFalsy: true })
     .trim()
@@ -33,4 +33,4 @@ const validateInputFields = [
     .escape(),
 ];
 
-export default validateInputFields;
+export default formValidation;

@@ -4,14 +4,14 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import asyncHandler from "express-async-handler";
 import generateToken from "../utils/generateToken";
 import { validationResult } from "express-validator";
+import formValidation from "../utils/formValidation";
 import protectRoute from "../middleware/authMiddleware";
-import validateInputFields from "../utils/validateInputFields";
 
 // @access Public
 // @desc Register a new user
 // @route POST /api/v1/user/register
 export const regUser = [
-  ...validateInputFields,
+  ...formValidation,
   asyncHandler(async (req: Request, res: Response) => {
     const { email, password, lastName, firstName, avatar } =
       req.body;
