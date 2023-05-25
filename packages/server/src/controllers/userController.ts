@@ -4,44 +4,83 @@ import jwt, { JwtPayload } from "jsonwebtoken";
 import asyncHandler from "express-async-handler";
 import generateToken from "../utils/generateToken";
 import protectRoute from "../middleware/authMiddleware";
+import { body, validationResult } from "express-validator";
 
 // @access Public
 // @desc Register a new user
 // @route POST /api/v1/user/register
-export const regUser = asyncHandler(
-  async (req: Request, res: Response) => {
+export const regUser = [
+  body("avatar")
+    .optional({ checkFalsy: true })
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage("Include a valid image path")
+    .escape(),
+
+  body("password")
+    .trim()
+    .isStrongPassword()
+    .withMessage("Please select a strong password")
+    .escape(),
+
+  body("email")
+    .trim()
+    .isEmail()
+    .withMessage("Please Use a valid email address")
+    .escape(),
+
+  body("firstName")
+    .trim()
+    .notEmpty()
+    .withMessage("First name field must not be empty")
+    .escape(),
+
+  body("lastName")
+    .trim()
+    .notEmpty()
+    .withMessage("Last name field must not be empty")
+    .escape(),
+
+  asyncHandler(async (req: Request, res: Response) => {
     const { email, password, lastName, firstName, avatar } =
       req.body;
-    const userExist = await User.findOne({ email });
 
-    // All required fields
-    const reqData = { email, password, lastName, firstName };
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+    const message = errors.array().map((err) => err.msg);
 
-    // Adds user avatar if its added during sign up
-    const data = avatar ? { ...reqData, avatar } : reqData;
+    if (errors.isEmpty()) {
+      const userExist = await User.findOne({ email });
 
-    if (userExist) {
-      res.status(400);
-      throw new Error("User already exists");
-    }
+      // All required fields
+      const reqData = { email, password, lastName, firstName };
 
-    const user = await User.create(data);
+      // Adds user avatar if its added during sign up
+      const data = avatar ? { ...reqData, avatar } : reqData;
 
-    if (user) {
-      generateToken(res, user._id);
-      res.status(201).json({
-        _id: user._id,
-        email: user.email,
-        avatar: user.avatar,
-        lastName: user.lastName,
-        firstName: user.firstName,
-      });
-    } else {
-      res.status(400);
-      throw new Error("Invalid user data");
-    }
-  }
-);
+      if (userExist) {
+        res.status(400);
+        throw new Error("User already exists");
+      }
+
+      const user = await User.create(data);
+
+      if (user) {
+        generateToken(res, user._id);
+        res.status(201).json({
+          _id: user._id,
+          email: user.email,
+          avatar: user.avatar,
+          lastName: user.lastName,
+          firstName: user.firstName,
+        });
+      } else {
+        res.status(400);
+        throw new Error("Invalid user data");
+      }
+    } else res.status(401).json({ message });
+  }),
+];
 
 // @access Public
 // @desc Authenticate user
