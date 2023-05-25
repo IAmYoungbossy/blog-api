@@ -1,4 +1,6 @@
 import { body } from "express-validator";
+import { validateTag } from "../utils/validateTags";
+import { validateCategories } from "../utils/validateCategories";
 
 // Form validation for user regisitration
 const formValidation = [
@@ -69,6 +71,90 @@ export const updateFormValidation = [
     .trim()
     .notEmpty()
     .withMessage("Last name field must not be empty")
+    .escape(),
+];
+
+// Form validation for updating blog post
+export const updateBlogPostFormValidation = [
+  body("tags")
+    .optional({ checkFalsy: true })
+    .trim()
+    .notEmpty()
+    .withMessage("Select at least a tag")
+    .custom(validateTag)
+    .withMessage("Select at least a tag from the tag list")
+    .escape(),
+
+  body("postBody")
+    .optional({ checkFalsy: true })
+    .trim()
+    .isLength({ min: 50 })
+    .withMessage("Minimum post character is 50")
+    .escape(),
+
+  body("postTitle")
+    .optional({ checkFalsy: true })
+    .trim()
+    .isLength({ min: 10 })
+    .withMessage("Minimum post tile character is 10")
+    .escape(),
+
+  body("postImage")
+    .optional({ checkFalsy: true })
+    .trim()
+    .notEmpty()
+    .withMessage("Must include an image")
+    .escape(),
+
+  body("categories")
+    .optional({ checkFalsy: true })
+    .trim()
+    .notEmpty()
+    .withMessage("Pick at least one category")
+    .custom(validateCategories)
+    .withMessage("Select at least a tag from the tag list")
+    .escape(),
+];
+
+// Form validation for creating blog post
+export const blogPostFormValidation = [
+  body("tags")
+    .optional({ checkFalsy: true })
+    .trim()
+    .notEmpty()
+    .withMessage("Select at least a tag")
+    .custom(validateTag)
+    .withMessage("Select at least a tag from the tag list")
+    .escape(),
+
+  body("postBody")
+    .optional({ checkFalsy: true })
+    .trim()
+    .isLength({ min: 50 })
+    .withMessage("Minimum post character is 50")
+    .escape(),
+
+  body("postTitle")
+    .optional({ checkFalsy: true })
+    .trim()
+    .isLength({ min: 10 })
+    .withMessage("Minimum post tile character is 10")
+    .escape(),
+
+  body("postImage")
+    .optional({ checkFalsy: true })
+    .trim()
+    .notEmpty()
+    .withMessage("Must include an image")
+    .escape(),
+
+  body("categories")
+    .optional({ checkFalsy: true })
+    .trim()
+    .notEmpty()
+    .withMessage("Pick at least one category")
+    .custom(validateCategories)
+    .withMessage("Select at least a tag from the tag list")
     .escape(),
 ];
 
