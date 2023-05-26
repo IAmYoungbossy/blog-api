@@ -1,6 +1,6 @@
 import { body } from "express-validator";
 import { validateTag } from "../utils/validateTags";
-import { validateCategories } from "../utils/validateCategories";
+import { validatecategory } from "../utils/validateCategories";
 
 // Form validation for user regisitration
 const formValidation = [
@@ -106,12 +106,12 @@ export const updateBlogPostFormValidation = [
     .withMessage("Must include an image")
     .escape(),
 
-  body("categories")
+  body("category")
     .optional({ checkFalsy: true })
     .trim()
     .notEmpty()
     .withMessage("Pick at least one category")
-    .custom(validateCategories)
+    .custom(validatecategory)
     .withMessage("Select at least a tag from the tag list")
     .escape(),
 ];
@@ -148,13 +148,21 @@ export const blogPostFormValidation = [
     .withMessage("Must include an image")
     .escape(),
 
-  body("categories")
+  body("category")
     .optional({ checkFalsy: true })
     .trim()
     .notEmpty()
     .withMessage("Pick at least one category")
-    .custom(validateCategories)
+    .custom(validatecategory)
     .withMessage("Select at least a tag from the tag list")
+    .escape(),
+];
+
+export const commentFormValidation = [
+  body("comment")
+    .trim()
+    .notEmpty()
+    .withMessage("Type your thought in the comment box")
     .escape(),
 ];
 

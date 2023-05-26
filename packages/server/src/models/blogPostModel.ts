@@ -14,7 +14,7 @@ const blogPostSchema = new Schema(
       "Responsive",
       "Inspiration",
     ],
-    categories: {
+    category: {
       type: String,
       required: true,
       enum: [

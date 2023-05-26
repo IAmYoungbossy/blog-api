@@ -1,5 +1,5 @@
-export const validateCategories = (value: any) => {
-  const categories = [
+export const validatecategory = (value: any) => {
+  const category = [
     "Books",
     "Sports",
     "Adventure",
@@ -11,7 +11,7 @@ export const validateCategories = (value: any) => {
   const tags: string[] = value.split(",");
 
   // Check if each tag is in the allowedTags array
-  const isValid = tags.every((tag) => categories.includes(tag));
+  const isValid = tags.every((tag) => category.includes(tag));
 
   // If at least one tag is not valid, throw an error
   if (!isValid) {

@@ -34,7 +34,7 @@ export const createBlogPost = [
           postTitle,
           postBody,
           tags,
-          categories,
+          category,
         } = req.body;
 
         // Adds all data together
@@ -44,7 +44,7 @@ export const createBlogPost = [
           postTitle,
           postImage,
           postAuthor,
-          categories,
+          category,
         };
 
         // Creates post on database
@@ -76,7 +76,7 @@ export const updateBlogPost = [
         postTitle,
         postImage,
         postAuthor,
-        categories,
+        category,
       } = req.body;
 
       // Checks if it's Admin
@@ -97,8 +97,7 @@ export const updateBlogPost = [
           try {
             blogPost.postAuthor =
               postAuthor || blogPost.postAuthor;
-            blogPost.categories =
-              categories || blogPost.categories;
+            blogPost.category = category || blogPost.category;
             blogPost.tags = tags || blogPost.tags;
             blogPost.status =
               (status as statusType) || blogPost.status;
