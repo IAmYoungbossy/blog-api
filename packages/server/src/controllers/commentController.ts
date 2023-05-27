@@ -66,3 +66,31 @@ export const editComment = [
     } else res.status(401).json({ message });
   }),
 ];
+
+// @access Private
+// @desc Edit comment on blog post
+// @route DELETE /api/v1/user/comment/:commentId
+export const deleteComment = [
+  protectRoute,
+  ...commentFormValidation,
+  asyncHandler(async (req, res) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
+    const message = errors.array().map((err) => err.msg);
+
+    // Checks to see no error from client
+    if (errors.isEmpty()) {
+      const { commentId } = req.params;
+      const commentAuthor = req.body.user._id;
+
+      if (commentAuthor) {
+        const message = "User profile successfully deleted";
+        await CommentModel.deleteOne({ _id: commentId });
+        res.status(200).json({ message });
+      } else {
+        res.status(401);
+        throw new Error("Oops! something unexpected happend");
+      }
+    } else res.status(401).json({ message });
+  }),
+];
