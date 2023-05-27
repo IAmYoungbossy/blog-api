@@ -17,7 +17,7 @@ router.post("/blog", createBlogPost);
 // DELETE Deletes a blog post.
 router.delete("/blog", deleteBlogPost);
 
-// PUT Updates publish status of a blog post.
-router.put("/blog/status", updatePostStatus);
+// PUT Updates status of a blog post.
+router.patch("/blog", updatePostStatus);
 
 export default router;

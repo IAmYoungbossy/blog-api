@@ -71,7 +71,7 @@ export const editComment = [
 ];
 
 // @access Private
-// @desc Edit comment on blog post
+// @desc Deletes comment on blog post
 // @route DELETE /api/v1/user/comment/:commentId
 export const deleteComment = [
   protectRoute,

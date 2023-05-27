@@ -120,7 +120,7 @@ export const updateBlogPost = [
 
 // @access Admin only
 // @desc Updates blog post status
-// @route PUT /api/v1/admin/blog/status
+// @route PATCH /api/v1/admin/blog
 export const updatePostStatus = [
   protectRoute,
   asyncHandler(async (req, res) => {

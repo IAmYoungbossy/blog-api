@@ -13,6 +13,7 @@ import { onError } from "./utils/onError";
 import blogRouter from "./routes/blogRoutes";
 import userRouter from "./routes/userRoutes";
 import { onListening } from "./utils/onListening";
+import commentRouter from "./routes/commentRoutes";
 
 // Express app
 const app = express();
@@ -26,6 +27,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // User routes
 app.use("/api/v1/user", userRouter);
+app.use("/api/v1/user/comment", commentRouter);
 
 // Admin routes
 app.use("/api/v1/admin", blogRouter);
