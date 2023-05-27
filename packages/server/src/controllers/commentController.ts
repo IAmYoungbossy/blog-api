@@ -52,10 +52,13 @@ export const editComment = [
     if (errors.isEmpty()) {
       const { comment } = req.body;
       const { commentId } = req.params;
-      const commentAuthor = req.body.user._id;
+      const author = req.body.user._id;
       const commentPost = await CommentModel.findById(commentId);
 
-      if (commentAuthor && commentPost) {
+      // Checks if current user is author of post
+      const isAuthor = author === commentPost?.commentAuthor;
+
+      if (commentPost && isAuthor) {
         commentPost.comment = comment || commentPost.comment;
         const commentObj = await commentPost.save();
         res.status(201).json(commentObj);
@@ -81,9 +84,13 @@ export const deleteComment = [
     // Checks to see no error from client
     if (errors.isEmpty()) {
       const { commentId } = req.params;
-      const commentAuthor = req.body.user._id;
+      const author = req.body.user._id;
+      const commentPost = await CommentModel.findById(commentId);
 
-      if (commentAuthor) {
+      // Checks if current user is author of post
+      const isAuthor = author === commentPost?.commentAuthor;
+
+      if (isAuthor) {
         const message = "User profile successfully deleted";
         await CommentModel.deleteOne({ _id: commentId });
         res.status(200).json({ message });
