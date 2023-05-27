@@ -55,7 +55,7 @@ export const regUser = [
 ];
 
 // @access Public
-// @desc Authenticate user
+// @desc Login user
 // @route POST /api/v1/user/login
 export const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;

@@ -12,7 +12,7 @@ import protectRoute from "../middleware/authMiddleware";
 // @route POST /api/v1/admin/blog
 export const createBlogPost = [
   protectRoute,
-  blogPostFormValidation,
+  ...blogPostFormValidation,
   asyncHandler(async (req, res) => {
     // Extract the validation errors from a request.
     const errors = validationResult(req);
@@ -58,11 +58,11 @@ export const createBlogPost = [
 type statusType = "Published" | "Unpublished";
 
 // @access Admin only
-// @desc Create a new blog post
+// @desc Update a blog post
 // @route PUT /api/v1/admin/blog
 export const updateBlogPost = [
   protectRoute,
-  updateBlogPostFormValidation,
+  ...updateBlogPostFormValidation,
   asyncHandler(async (req, res) => {
     // Extract the validation errors from a request.
     const errors = validationResult(req);
@@ -119,7 +119,7 @@ export const updateBlogPost = [
 ];
 
 // @access Admin only
-// @desc Create a new blog post
+// @desc Updates blog post status
 // @route PUT /api/v1/admin/blog/status
 export const updatePostStatus = [
   protectRoute,
@@ -155,9 +155,9 @@ export const updatePostStatus = [
 ];
 
 // @access Admin only
-// @desc Create a new blog post
-// @route DELETE /api/v1/admin/blog/delete
-export const deletePostStatus = [
+// @desc Deletes a blog post
+// @route DELETE /api/v1/admin/blog
+export const deleteBlogPost = [
   protectRoute,
   asyncHandler(async (req, res) => {
     // Post Id

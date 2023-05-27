@@ -9,9 +9,9 @@ import errorHandler, {
   catchErrorAndForward,
 } from "./middleware/errorMiddleware";
 import { port } from "./utils/onError";
-import userRouter from "./routes/users";
-import indexRouter from "./routes/index";
 import { onError } from "./utils/onError";
+import blogRouter from "./routes/blogRoutes";
+import userRouter from "./routes/userRoutes";
 import { onListening } from "./utils/onListening";
 
 // Express app
@@ -24,9 +24,11 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 
-// Routes
-app.use("/api/v1", indexRouter);
+// User routes
 app.use("/api/v1/user", userRouter);
+
+// Admin routes
+app.use("/api/v1/admin", blogRouter);
 
 // catch 404 and forward to error handler
 app.use(catchErrorAndForward);
