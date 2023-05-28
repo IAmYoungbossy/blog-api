@@ -59,7 +59,7 @@ type statusType = "Published" | "Unpublished";
 
 // @access Admin only
 // @desc Update a blog post
-// @route PUT /api/v1/admin/blog
+// @route PUT /api/v1/admin/blog/:blogPostId
 export const updateBlogPost = [
   protectRoute,
   ...updateBlogPostFormValidation,
@@ -85,9 +85,11 @@ export const updateBlogPost = [
         res.status(401);
         throw new Error("Not authorized user");
       } else {
-        const { id } = req.params;
+        const { blogPostId } = req.params;
 
-        const blogPost = await BlogPostModel.findById(id);
+        const blogPost = await BlogPostModel.findById(
+          blogPostId
+        );
 
         if (!blogPost) {
           res
@@ -120,7 +122,7 @@ export const updateBlogPost = [
 
 // @access Admin only
 // @desc Updates blog post status
-// @route PATCH /api/v1/admin/blog
+// @route PATCH /api/v1/admin/blog/:blogPostId
 export const updatePostStatus = [
   protectRoute,
   asyncHandler(async (req, res) => {
@@ -132,8 +134,8 @@ export const updatePostStatus = [
       res.status(401);
       throw new Error("Not authorized user");
     } else {
-      const { id } = req.params;
-      const blogPost = await BlogPostModel.findById(id);
+      const { blogPostId } = req.params;
+      const blogPost = await BlogPostModel.findById(blogPostId);
 
       if (!blogPost)
         res.status(401).json({ message: "Post doesn't exist" });
@@ -156,12 +158,12 @@ export const updatePostStatus = [
 
 // @access Admin only
 // @desc Deletes a blog post
-// @route DELETE /api/v1/admin/blog
+// @route DELETE /api/v1/admin/blog/:blogPostId
 export const deleteBlogPost = [
   protectRoute,
   asyncHandler(async (req, res) => {
     // Post Id
-    const { id } = req.params;
+    const { blogPostId } = req.params;
 
     // Checks if it's Admin
     const isAdmin = req.body.user.role === "admin";
@@ -170,9 +172,9 @@ export const deleteBlogPost = [
       throw new Error("Not authorized user");
     } else {
       try {
-        await BlogPostModel.deleteOne({ _id: id });
+        await BlogPostModel.deleteOne({ _id: blogPostId });
         const message = "User profile successfully deleted";
-        res.status(201).json({ message });
+        res.status(200).json({ message });
       } catch (err) {
         res.status(401);
         throw new Error("Something unexpected happend");

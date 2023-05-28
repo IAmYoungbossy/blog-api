@@ -8,16 +8,16 @@ import {
 
 const router = express.Router();
 
-// PUT Updates a blog post.
-router.put("/blog", updateBlogPost);
-
 // POST Creates new blog post.
 router.post("/blog", createBlogPost);
 
-// DELETE Deletes a blog post.
-router.delete("/blog", deleteBlogPost);
+// PUT Updates in a blog post.
+router.put("/blog/:blogPostId", updateBlogPost);
 
-// PUT Updates status of a blog post.
-router.patch("/blog", updatePostStatus);
+// DELETE Deletes a blog post.
+router.delete("/blog/:blogPostId", deleteBlogPost);
+
+// PATCH Updates status of a blog post.
+router.patch("/blog/:blogPostId", updatePostStatus);
 
 export default router;
