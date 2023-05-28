@@ -1,3 +1,4 @@
+import { Types } from "mongoose";
 import asyncHandler from "express-async-handler";
 import CommentModel from "../models/commentModel";
 import BlogPostModel from "../models/blogPostModel";
@@ -28,6 +29,7 @@ export const postComment = [
         const commentObj = await CommentModel.create(data);
         const commentId = commentObj._id;
         blogPost.comments.push(commentId);
+        await blogPost.save();
         res.status(201).json(commentObj);
       } else {
         res.status(401);
@@ -51,12 +53,15 @@ export const editComment = [
     // Checks to see no error from client
     if (errors.isEmpty()) {
       const { comment } = req.body;
+      const objectId = Types.ObjectId;
       const { commentId } = req.params;
       const author = req.body.user._id;
       const commentPost = await CommentModel.findById(commentId);
 
       // Checks if current user is author of post
-      const isAuthor = author === commentPost?.commentAuthor;
+      const isAuthor =
+        new objectId(author).toString() ===
+        new objectId(commentPost?.commentAuthor).toString();
 
       if (commentPost && isAuthor) {
         commentPost.comment = comment || commentPost.comment;
@@ -75,7 +80,6 @@ export const editComment = [
 // @route DELETE /api/v1/user/comment/:commentId
 export const deleteComment = [
   protectRoute,
-  ...commentFormValidation,
   asyncHandler(async (req, res) => {
     // Extract the validation errors from a request.
     const errors = validationResult(req);
@@ -83,12 +87,15 @@ export const deleteComment = [
 
     // Checks to see no error from client
     if (errors.isEmpty()) {
+      const objectId = Types.ObjectId;
       const { commentId } = req.params;
       const author = req.body.user._id;
       const commentPost = await CommentModel.findById(commentId);
 
       // Checks if current user is author of post
-      const isAuthor = author === commentPost?.commentAuthor;
+      const isAuthor =
+        new objectId(author).toString() ===
+        new objectId(commentPost?.commentAuthor).toString();
 
       if (isAuthor) {
         const message = "User profile successfully deleted";
