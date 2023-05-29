@@ -7,6 +7,7 @@ import asyncHandler from "express-async-handler";
 import generateToken from "../utils/generateToken";
 import { validationResult } from "express-validator";
 import protectRoute from "../middleware/authMiddleware";
+import BlogPostModel from "../models/blogPostModel";
 
 // @access Public
 // @desc Register a new user
@@ -160,3 +161,35 @@ export const deleteUserProfile = asyncHandler(
     }
   }
 );
+
+// @access Private
+// @desc Like or Unlike a blog post
+// @route POST /api/v1/user/:blogPostId
+export const likeOrUnlikeBlogPost = [
+  protectRoute,
+  asyncHandler(async (req, res) => {
+    const { _id } = req.body.user;
+    const { blogPostId } = req.params;
+    const blogPost = await BlogPostModel.findById(blogPostId);
+
+    if (!blogPost) {
+      res.status(401);
+      throw new Error("Not authorized user");
+    } else {
+      try {
+        if (blogPost.comments.includes(_id)) {
+          const likeIndex = blogPost.comments.indexOf(_id);
+          blogPost.comments.splice(likeIndex, 1);
+          await blogPost.save();
+          res.status(200).json({ message: "Like Removed" });
+        }
+        blogPost.comments.push(_id);
+        await blogPost.save();
+        res.status(200).json({ message: "Like Added" });
+      } catch (err) {
+        res.status(401);
+        throw new Error("Something unexpected happend");
+      }
+    }
+  }),
+];
