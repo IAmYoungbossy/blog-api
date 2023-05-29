@@ -164,7 +164,7 @@ export const deleteUserProfile = asyncHandler(
 
 // @access Private
 // @desc Like or Unlike a blog post
-// @route POST /api/v1/user/:blogPostId
+// @route POST /api/v1/user/blog/:blogPostId
 export const likeOrUnlikeBlogPost = [
   protectRoute,
   asyncHandler(async (req, res) => {
@@ -182,10 +182,11 @@ export const likeOrUnlikeBlogPost = [
           blogPost.comments.splice(likeIndex, 1);
           await blogPost.save();
           res.status(200).json({ message: "Like Removed" });
+        } else {
+          blogPost.comments.push(_id);
+          await blogPost.save();
+          res.status(200).json({ message: "Like Added" });
         }
-        blogPost.comments.push(_id);
-        await blogPost.save();
-        res.status(200).json({ message: "Like Added" });
       } catch (err) {
         res.status(401);
         throw new Error("Something unexpected happend");
