@@ -42,6 +42,14 @@ const blogPostSchema = new Schema(
   { timestamps: true }
 );
 
+blogPostSchema.virtual("like-count").get(function () {
+  return this.likes.length;
+});
+
+blogPostSchema.virtual("comment-count").get(function () {
+  return this.comments.length;
+});
+
 const BlogPostModel = model("blogPost", blogPostSchema);
 
 export default BlogPostModel;
