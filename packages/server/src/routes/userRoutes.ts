@@ -4,6 +4,7 @@ import {
   loginUser,
   logoutUser,
   getUserProfile,
+  getAllBlogPosts,
   updateUserProfile,
   deleteUserProfile,
   likeOrUnlikeBlogPost,
@@ -19,6 +20,9 @@ router.post("/register", regUser);
 
 // POST logs out user from account.
 router.post("/logout", logoutUser);
+
+// GET display all blog posts.
+router.get("/blog", getAllBlogPosts);
 
 // GET displays logged in user data.
 router.get("/profile", getUserProfile);

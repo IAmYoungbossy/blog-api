@@ -194,3 +194,19 @@ export const likeOrUnlikeBlogPost = [
     }
   }),
 ];
+
+// @access Private
+// @desc Like or Unlike a blog post
+// @route POST /api/v1/user/blog
+export const getAllBlogPosts = [
+  protectRoute,
+  asyncHandler(async (req, res) => {
+    const allBlogPosts = await BlogPostModel.find()
+      .populate({
+        path: "postAuthor",
+        select: "-password",
+      })
+      .exec();
+    res.json(allBlogPosts);
+  }),
+];

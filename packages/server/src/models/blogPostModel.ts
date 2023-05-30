@@ -26,7 +26,7 @@ const blogPostSchema = new Schema(
       ],
     },
     postAuthor: {
-      ref: "User",
+      ref: "regUser",
       required: true,
       type: Schema.Types.ObjectId,
     },
@@ -36,8 +36,8 @@ const blogPostSchema = new Schema(
       default: "Unpublished",
       enum: ["Published", "Unpublished"],
     },
-    likes: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
+    likes: [{ type: Schema.Types.ObjectId, ref: "regUser" }],
+    comments: [{ type: Schema.Types.ObjectId, ref: "Comments" }],
   },
   { timestamps: true }
 );
