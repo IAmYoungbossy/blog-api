@@ -177,13 +177,13 @@ export const likeOrUnlikeBlogPost = [
       throw new Error("Not authorized user");
     } else {
       try {
-        if (blogPost.comments.includes(_id)) {
-          const likeIndex = blogPost.comments.indexOf(_id);
-          blogPost.comments.splice(likeIndex, 1);
+        if (blogPost.likes.includes(_id)) {
+          const likeIndex = blogPost.likes.indexOf(_id);
+          blogPost.likes.splice(likeIndex, 1);
           await blogPost.save();
           res.status(200).json({ message: "Like Removed" });
         } else {
-          blogPost.comments.push(_id);
+          blogPost.likes.push(_id);
           await blogPost.save();
           res.status(200).json({ message: "Like Added" });
         }

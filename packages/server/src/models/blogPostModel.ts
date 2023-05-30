@@ -39,14 +39,14 @@ const blogPostSchema = new Schema(
     likes: [{ type: Schema.Types.ObjectId, ref: "regUser" }],
     comments: [{ type: Schema.Types.ObjectId, ref: "Comments" }],
   },
-  { timestamps: true }
+  { timestamps: true, toJSON: { virtuals: true } }
 );
 
-blogPostSchema.virtual("like-count").get(function () {
+blogPostSchema.virtual("likeCount").get(function () {
   return this.likes.length;
 });
 
-blogPostSchema.virtual("comment-count").get(function () {
+blogPostSchema.virtual("commentCount").get(function () {
   return this.comments.length;
 });
 
