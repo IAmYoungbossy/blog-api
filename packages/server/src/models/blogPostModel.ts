@@ -36,6 +36,11 @@ const blogPostSchema = new Schema(
       default: "Unpublished",
       enum: ["Published", "Unpublished"],
     },
+    heroSlides: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
     likes: [{ type: Schema.Types.ObjectId, ref: "regUser" }],
     comments: [{ type: Schema.Types.ObjectId, ref: "Comments" }],
   },
