@@ -65,7 +65,7 @@ export const loginUser = asyncHandler(async (req, res) => {
 
   if (user && (await user.matchPassword(password))) {
     generateToken(res, user._id);
-    res.redirect("/api/v1/user/profile");
+    res.redirect(303, "/api/v1/user/profile");
   } else {
     res.status(400);
     req.body.invalidUser = true;
