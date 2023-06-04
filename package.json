@@ -8,9 +8,6 @@
     "build": "cd packages/server && rm -rf /dist && tsc -p . && node minify.js",
     "server": "cd packages/server && SET DEBUG=express-locallibrary-tutorial:* & npm run dev"
   },
-  "devDependencies": {
-    "lerna": "^6.6.2"
-  },
   "name": "blog-api",
   "workspaces": [
     "packages"
