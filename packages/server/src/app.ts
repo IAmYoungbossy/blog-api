@@ -32,7 +32,7 @@ app.use("/api/v1/user/comment", commentRouter);
 // Admin routes
 app.use("/api/v1/admin", blogRouter);
 
-// catch 404 and forward to error handler
+// forward 404 to error handler
 app.use(catchErrorAndForward);
 
 // error handler
